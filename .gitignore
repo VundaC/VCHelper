@@ -349,3 +349,5 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 TempSolutions/TestIdea/TestIdea/keys.json
+.gitsecret/keys/random_seed
+!*.secret

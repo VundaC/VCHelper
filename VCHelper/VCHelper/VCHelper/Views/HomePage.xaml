@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:VCHelper.ViewModels"
+    x:Class="VCHelper.Views.HomePage"
+    x:DataType="vm:HomePageViewModel">
+    <ContentPage.Content>
+        <StackLayout>
+            <Label 
+                Text="Welcome to VundaC samples"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

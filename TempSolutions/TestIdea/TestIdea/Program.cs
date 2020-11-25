@@ -14,7 +14,7 @@ namespace TestIdea
 		//https://pixabay.com/api/docs/
 		static void Main(string[] args)
 		{
-			LoadImages().Wait();
+			LoadImages().Wait(); 
 		}
 
 		private static async Task LoadImages()

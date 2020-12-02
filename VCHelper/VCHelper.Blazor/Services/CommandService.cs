@@ -8,10 +8,7 @@ namespace VCHelper.Blazor.Services
 	{
 		#region Fields
 
-		private readonly Dictionary<string, Command> _voidCommands
-			= new Dictionary<string, Command>();
-
-		private readonly Dictionary<string, Command<object>> _resultCommands
+		private readonly Dictionary<string, Command<object>> _commands
 			= new Dictionary<string, Command<object>>();
 
 		#endregion
@@ -20,15 +17,15 @@ namespace VCHelper.Blazor.Services
 
 		public void ExecuteCommand(string name, params object[] args)
 		{
-			if (_voidCommands.ContainsKey(name))
-				_voidCommands[name].Execute(args);
+			if (_commands.ContainsKey(name))
+				_commands[name].Execute(args);
 		}
 
 		public T ExecuteCommand<T>(string cmdName, params object[] args)
 		{
-			if (_resultCommands.ContainsKey(cmdName))
+			if (_commands.ContainsKey(cmdName))
 			{
-				var res = _resultCommands[cmdName].Execute(args);
+				var res = _commands[cmdName].Execute(args);
 				return (T)res;
 			}
 
@@ -37,18 +34,22 @@ namespace VCHelper.Blazor.Services
 
 		public void SetExecution(string cmdName, Action<object[]> action)
 		{
-			if (!_voidCommands.ContainsKey(cmdName))
-				_voidCommands.Add(cmdName, new Command());
+			if (!_commands.ContainsKey(cmdName))
+				_commands.Add(cmdName, new Command<object>());
 
-			_voidCommands[cmdName].SetExecution(action);
+			_commands[cmdName].SetExecution(x =>
+			{
+				action.Invoke(x);
+				return null;
+			});
 		}
 
 		public void SetExecution<T>(string cmdName, Func<object[], T> func)
 		{
-			if (!_resultCommands.ContainsKey(cmdName))
-				_resultCommands.Add(cmdName, new Command<object>());
+			if (!_commands.ContainsKey(cmdName))
+				_commands.Add(cmdName, new Command<object>());
 
-			_resultCommands[cmdName].SetExecution((object[] param) => func(param));
+			_commands[cmdName].SetExecution((object[] param) => func(param));
 		}
 
 		#endregion

@@ -5,9 +5,9 @@
 
 Welcome to your new app.
 
-<br/>
-<button type="button" style="margin: auto;" @onclick="OnButtonPressed">Press me</button>
-<br/>
+<br />
+<button type="button" @onclick="async () => await OnButtonPressed()">Press me</button>
+<br />
 
 @if (Response == true)
 {
@@ -18,13 +18,19 @@ Welcome to your new app.
     <span style="color: red;">You pressed <b>No</b></span>
 }
 
+<br />
+<button type="button" @onclick="Count">@Clicks cliks</button>
+
 @code
 {
     @using VCHelper.Blazor.Services
+    @using System.Threading
 
     private bool? Response;
 
-    private async void OnButtonPressed()
+    private int Clicks = 0;
+
+    private async Task OnButtonPressed()
     {
         Response = await CommandService.ExecuteCommand<Task<bool>>(
             "ShowAlert",
@@ -34,5 +40,15 @@ Welcome to your new app.
             "No");
 
         StateHasChanged();
+    }
+
+    private async void Count()
+    {
+        while (true)
+        {
+            Clicks++;
+            StateHasChanged();
+            await Task.Delay(100);
+        }
     }
 }

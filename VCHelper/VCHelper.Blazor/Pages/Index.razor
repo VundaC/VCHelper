@@ -1,5 +1,38 @@
 ﻿@page "/"
+@inject ICommandService CommandService
 
 <h1>Hello, world!</h1>
 
 Welcome to your new app.
+
+<br/>
+<button type="button" style="margin: auto;" @onclick="OnButtonPressed">Press me</button>
+<br/>
+
+@if (Response == true)
+{
+    <span style="color: green;">You pressed <b>Yes</b></span>
+}
+@if (Response == false)
+{
+    <span style="color: red;">You pressed <b>No</b></span>
+}
+
+@code
+{
+    @using VCHelper.Blazor.Services
+
+    private bool? Response;
+
+    private async void OnButtonPressed()
+    {
+        Response = await CommandService.ExecuteCommand<Task<bool>>(
+            "ShowAlert",
+            "Confirm the action",
+            "Press Yes or No to continue",
+            "Yes",
+            "No");
+
+        StateHasChanged();
+    }
+}

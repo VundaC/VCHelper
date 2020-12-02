@@ -2,6 +2,7 @@
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.MobileBlazorBindings;
+using VCHelper.Blazor.Services;
 using Xamarin.Forms;
 
 namespace VCHelper
@@ -14,13 +15,13 @@ namespace VCHelper
         {
             InitializeComponent();
 
-            //Register services here
-            //DependencyService.Register<MockDataStore>();
+            DependencyService.Register<ICommandService, CommandService>();
 
             Host = MobileBlazorBindingsHost.CreateDefaultBuilder()
                 .ConfigureServices((hostContext, services) =>
                 {
                     services.AddBlazorHybrid();
+                    services.AddSingleton(DependencyService.Resolve<ICommandService>());
                 })
                 .UseWebRoot("wwwroot")
                 .UseStaticFiles(fileProvider)

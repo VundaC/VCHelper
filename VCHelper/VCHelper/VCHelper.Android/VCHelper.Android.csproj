@@ -95,6 +95,10 @@
     <AndroidResource Include="Resources\drawable\icon_feed.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\VCHelper.Blazor\VCHelper.Blazor.csproj">
+      <Project>{5cb706af-33fb-4d2f-a19e-6bbd2ac6c1a2}</Project>
+      <Name>VCHelper.Blazor</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VCHelper\VCHelper.csproj">
       <Project>{99A2388B-978D-4DE7-B049-20B45A75185D}</Project>
       <Name>VCHelper</Name>

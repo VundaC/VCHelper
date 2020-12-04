@@ -14,7 +14,23 @@ namespace GitSecretsHelper
 
 		static void Main(string[] args)
 		{
-			EncodeFileAsync().Wait();
+			var command = Console.ReadLine();
+			switch (command)
+			{
+				case "encrypt":
+				case "hide": EncodeFilesAsync().Wait(); break;
+				case "decode":
+				case "reveal" : DecodeFilesAsync().Wait(); break;
+				default: break;
+			}
+			if (command.StartsWith("addfile "))
+			{
+				//addfile to mapping.cfg.
+				//addfile to gitignore;
+			}
+#if DEBUG
+			Console.ReadLine();
+#endif
 		}
 
 		private static async Task DecodeFilesAsync()
@@ -33,25 +49,25 @@ namespace GitSecretsHelper
 						var path = filePath.Substring(0, filePath.IndexOf(":"));
 						Console.WriteLine(path);
 #if DEBUG
-					path = relative + path;
+						path = relative + path;
 #endif
+						if (File.Exists(path))
+							File.Delete(path);
 						Process.Start("cmd", $"/c \" gpg --output {path} --decrypt {path}.secret \"");
 					}
 				}
 
-				Console.WriteLine("finish");
-				Console.ReadLine();
+				Console.WriteLine("Finish decoding");
 			}
 			catch (Exception ex)
 			{
 				System.Diagnostics.Debug.WriteLine($"EXCEPTION DecodeFilesAsync() : {ex.Message}\n{ex}");
 				Console.WriteLine($"EXCEPTION: {ex.Message}\n{ex}");
-				Console.ReadLine();
 			}
 		}
 
 
-		private static async Task EncodeFileAsync()
+		private static async Task EncodeFilesAsync()
 		{
 			try
 			{
@@ -89,15 +105,17 @@ namespace GitSecretsHelper
 					}
 				}
 
-				Console.WriteLine("finish");
-				Console.ReadLine();
+				Console.WriteLine("Finish encoding");
 			}
 			catch (Exception ex)
 			{
-				System.Diagnostics.Debug.WriteLine($"EXCEPTION DecodeFilesAsync() : {ex.Message}\n{ex}");
 				Console.WriteLine($"EXCEPTION: {ex.Message}\n{ex}");
-				Console.ReadLine();
 			}
 		}
+
+		private static async Task AddFiledToSecretsAsync()
+		{
+
+		} 
 	}
 }

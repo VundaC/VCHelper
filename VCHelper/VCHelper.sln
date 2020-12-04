@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VCHelper", "VCHelper\VCHelp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VCHelper.Blazor", "VCHelper.Blazor\VCHelper.Blazor.csproj", "{5CB706AF-33FB-4D2F-A19E-6BBD2AC6C1A2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xamarin.Forms.Nuke", "..\..\Xamarin.Forms.Nuke-master\Xamarin.Forms.Nuke\Xamarin.Forms.Nuke.csproj", "{7CE58FC8-6D94-40B0-AB53-D7873E7954A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +89,18 @@ Global
 		{5CB706AF-33FB-4D2F-A19E-6BBD2AC6C1A2}.Release|iPhone.Build.0 = Release|Any CPU
 		{5CB706AF-33FB-4D2F-A19E-6BBD2AC6C1A2}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{5CB706AF-33FB-4D2F-A19E-6BBD2AC6C1A2}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{7CE58FC8-6D94-40B0-AB53-D7873E7954A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CE58FC8-6D94-40B0-AB53-D7873E7954A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CE58FC8-6D94-40B0-AB53-D7873E7954A3}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{7CE58FC8-6D94-40B0-AB53-D7873E7954A3}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{7CE58FC8-6D94-40B0-AB53-D7873E7954A3}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{7CE58FC8-6D94-40B0-AB53-D7873E7954A3}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{7CE58FC8-6D94-40B0-AB53-D7873E7954A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CE58FC8-6D94-40B0-AB53-D7873E7954A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CE58FC8-6D94-40B0-AB53-D7873E7954A3}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{7CE58FC8-6D94-40B0-AB53-D7873E7954A3}.Release|iPhone.Build.0 = Release|Any CPU
+		{7CE58FC8-6D94-40B0-AB53-D7873E7954A3}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{7CE58FC8-6D94-40B0-AB53-D7873E7954A3}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

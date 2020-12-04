@@ -5,10 +5,9 @@
              x:DataType="vm:ImagesPageViewModel"
              x:Class="VCHelper.Views.ImagesPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout>            
+            <Image
+                Source="https://image.shutterstock.com/z/stock-photo-panorama-of-beautiful-countryside-of-romania-sunny-afternoon-wonderful-springtime-landscape-in-1302294157.jpg"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

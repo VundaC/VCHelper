@@ -141,5 +141,16 @@
       <Project>{99A2388B-978D-4DE7-B049-20B45A75185D}</Project>
       <Name>VCHelper</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\..\Xamarin.Forms.Nuke-master\Xamarin.Forms.Nuke\Xamarin.Forms.Nuke.csproj">
+      <Project>{7ce58fc8-6d94-40b0-ab53-d7873e7954a3}</Project>
+      <Name>Xamarin.Forms.Nuke</Name>
+      <IsAppExtension>false</IsAppExtension>
+      <IsWatchApp>false</IsWatchApp>
+    </ProjectReference>
   </ItemGroup>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties TriggeredFromHotReload="False" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

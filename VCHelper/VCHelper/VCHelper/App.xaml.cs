@@ -17,15 +17,15 @@ namespace VCHelper
 
             DependencyService.Register<ICommandService, CommandService>();
 
-            Host = MobileBlazorBindingsHost.CreateDefaultBuilder()
-                .ConfigureServices((hostContext, services) =>
-                {
-                    services.AddBlazorHybrid();
-                    services.AddSingleton(DependencyService.Resolve<ICommandService>());
-                })
-                .UseWebRoot("wwwroot")
-                .UseStaticFiles(fileProvider)
-                .Build();
+            //Host = MobileBlazorBindingsHost.CreateDefaultBuilder()
+            //    .ConfigureServices((hostContext, services) =>
+            //    {
+            //        services.AddBlazorHybrid();
+            //        services.AddSingleton(DependencyService.Resolve<ICommandService>());
+            //    })
+            //    .UseWebRoot("wwwroot")
+            //    .UseStaticFiles(fileProvider)
+            //    .Build();
 
             MainPage = new AppShell();
         }

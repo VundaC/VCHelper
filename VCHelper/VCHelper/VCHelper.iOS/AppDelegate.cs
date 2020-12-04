@@ -24,6 +24,7 @@ namespace VCHelper.iOS
         {
             global::Xamarin.Forms.Forms.SetFlags("CollectionView_Experimental");
             global::Xamarin.Forms.Forms.Init();
+            Xamarin.Forms.Nuke.FormsHandler.Init(true, disableFileImageSourceHandling: false);
             LoadApplication(new App());
 
             return base.FinishedLaunching(app, options);

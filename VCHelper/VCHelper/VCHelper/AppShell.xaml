@@ -82,9 +82,9 @@
     <FlyoutItem Title="Home">
         <ShellContent Route="HomePage" ContentTemplate="{DataTemplate local:HomePage}" />
     </FlyoutItem>
-    <FlyoutItem Title="Blazor">
+    <!--<FlyoutItem Title="Blazor">
         <ShellContent Route="BlazorPage" ContentTemplate="{DataTemplate local:BlazorPage}" />
-    </FlyoutItem>
+    </FlyoutItem>-->
     <FlyoutItem Title="Images">
         <ShellContent Route="ImagesPage" ContentTemplate="{DataTemplate local:ImagesPage}" />
     </FlyoutItem>

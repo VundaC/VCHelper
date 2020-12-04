@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inject ICommandService CommandService
+@implements System.IDisposable
 
 <h1>Hello, world!</h1>
 
@@ -30,6 +31,16 @@ Welcome to your new app.
 
     private int Clicks = 0;
 
+    public static Index Instance { get; private set; }
+
+    private CancellationTokenSource ClickingTCS = new CancellationTokenSource();
+
+    protected override void OnInitialized()
+    {
+        Instance = this;
+        base.OnInitialized();
+    }
+
     private async Task OnButtonPressed()
     {
         Response = await CommandService.ExecuteCommand<Task<bool>>(
@@ -44,11 +55,16 @@ Welcome to your new app.
 
     private async void Count()
     {
-        while (true)
+        while (!ClickingTCS.IsCancellationRequested)
         {
             Clicks++;
             StateHasChanged();
             await Task.Delay(100);
         }
+    }
+
+    public void Dispose()
+    {
+        ClickingTCS.Cancel();
     }
 }

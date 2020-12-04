@@ -1,5 +1,6 @@
 ﻿using Microsoft.MobileBlazorBindings;
 using System.Threading.Tasks;
+using VCHelper.Blazor.Pages;
 using VCHelper.Blazor.Services;
 using VCHelper.Razor;
 using Xamarin.Forms;
@@ -23,6 +24,12 @@ namespace VCHelper.Views
 			var cancel = args[3].ToString();
 
 			return await DisplayAlert(title, message, accept, cancel);
+		}
+
+		protected override void OnDisappearing()
+		{
+			Index.Instance.Dispose();
+			base.OnDisappearing();
 		}
 	}
 }

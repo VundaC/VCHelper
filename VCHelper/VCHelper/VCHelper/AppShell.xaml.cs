@@ -12,6 +12,7 @@ namespace VCHelper
         {
             InitializeComponent();
             Routing.RegisterRoute(nameof(HomePage), typeof(HomePage));
+            Routing.RegisterRoute(nameof(BlazorPage), typeof(BlazorPage));
         }
     }
 }

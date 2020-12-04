@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
+using Microsoft.MobileBlazorBindings.WebView.iOS;
 using Foundation;
 using UIKit;
 
@@ -22,6 +22,8 @@ namespace VCHelper.iOS
         //
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
+            BlazorHybridIOS.Init();
+
             global::Xamarin.Forms.Forms.SetFlags("CollectionView_Experimental");
             global::Xamarin.Forms.Forms.Init();
             LoadApplication(new App());

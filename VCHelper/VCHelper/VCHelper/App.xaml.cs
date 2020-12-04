@@ -7,39 +7,48 @@ using Xamarin.Forms;
 
 namespace VCHelper
 {
-    public partial class App : Application
-    {
-        public static IHost Host { get; private set; }
+	public partial class App : Application
+	{
+		public static IHost Host { get; private set; }
 
-        public App(IFileProvider fileProvider = null)
-        {
-            InitializeComponent();
+		public App(IFileProvider fileProvider = null)
+		{
+			InitializeComponent();
 
-            DependencyService.Register<ICommandService, CommandService>();
+			DependencyService.Register<ICommandService, CommandService>();
 
-            Host = MobileBlazorBindingsHost.CreateDefaultBuilder()
-                .ConfigureServices((hostContext, services) =>
-                {
-                    services.AddBlazorHybrid();
-                    services.AddSingleton(DependencyService.Resolve<ICommandService>());
-                })
-                .UseWebRoot("wwwroot")
-                .UseStaticFiles(fileProvider)
-                .Build();
+			var hostBuilder = MobileBlazorBindingsHost.CreateDefaultBuilder()
+				.ConfigureServices((hostContext, services) =>
+				{
+					services.AddBlazorHybrid();
+					services.AddSingleton(DependencyService.Resolve<ICommandService>());
+				})
+				.UseWebRoot("wwwroot");
 
-            MainPage = new AppShell();
-        }
+			if (fileProvider != null)
+			{
+				hostBuilder.UseStaticFiles(fileProvider);
+			}
+			else
+			{
+				hostBuilder.UseStaticFiles();
+			}
 
-        protected override void OnStart()
-        {
-        }
+			Host = hostBuilder.Build();
 
-        protected override void OnSleep()
-        {
-        }
+			MainPage = new AppShell();
+		}
 
-        protected override void OnResume()
-        {
-        }
-    }
+		protected override void OnStart()
+		{
+		}
+
+		protected override void OnSleep()
+		{
+		}
+
+		protected override void OnResume()
+		{
+		}
+	}
 }

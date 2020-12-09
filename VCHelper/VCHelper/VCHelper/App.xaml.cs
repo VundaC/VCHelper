@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using Microsoft.MobileBlazorBindings;
 using VCHelper.Blazor.Services;
+﻿using VCHelper.Services.Implementations;
+using VCHelper.Services.Interfaces;
 using Xamarin.Forms;
 
 namespace VCHelper
@@ -16,6 +18,9 @@ namespace VCHelper
 			InitializeComponent();
 
 			DependencyService.Register<ICommandService, CommandService>();
+            Config.Config.Load();
+            //Register services here
+            DependencyService.RegisterSingleton<IImagesService>(new ImagesService());
 
 			var hostBuilder = MobileBlazorBindingsHost.CreateDefaultBuilder()
 				.ConfigureServices((hostContext, services) =>

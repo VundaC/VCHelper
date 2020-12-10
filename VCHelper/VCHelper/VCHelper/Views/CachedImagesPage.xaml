@@ -26,33 +26,17 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate
                         x:DataType="models:PixabayHitsResult">
-                        <!--<eci:AlternativeCachedImage
+                        <eci:ExtendedCachedImage
                             PreviewSource="{Binding PreviewURL}"
                             FullSource="{Binding LargeImageURL}"
                             HeightRequest="300"
                             Aspect="AspectFill">
-                            <eci:AlternativeCachedImage.PreviewTransformations>
+                            <eci:ExtendedCachedImage.PreviewTransformations>
                                 <transformations:BlurredTransformation
                                     Radius="50"/>
-                            </eci:AlternativeCachedImage.PreviewTransformations>
-                        </eci:AlternativeCachedImage>-->
-                        <!--Source="{Binding PreviewURL}"/>-->
-                        <eci:ExtendedCachedImage
-                            Aspect="AspectFill"
-                            HeightRequest="300">
-                            <eci:ExtendedCachedImage.PreviewParameters>
-                                <eci:CachedImageParameters
-                                    Source="{Binding PreviewURL}">
-                                    <eci:CachedImageParameters.Transformations>
-                                        <transformations:BlurredTransformation/>
-                                    </eci:CachedImageParameters.Transformations>
-                                </eci:CachedImageParameters>
-                            </eci:ExtendedCachedImage.PreviewParameters>
-                            <eci:ExtendedCachedImage.ImageParameters>
-                                <eci:CachedImageParameters
-                                    Source="{Binding LargeImageURL}"/>
-                            </eci:ExtendedCachedImage.ImageParameters>
+                            </eci:ExtendedCachedImage.PreviewTransformations>
                         </eci:ExtendedCachedImage>
+                        <!--Source="{Binding PreviewURL}"/>-->
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
                 <CollectionView.EmptyView>

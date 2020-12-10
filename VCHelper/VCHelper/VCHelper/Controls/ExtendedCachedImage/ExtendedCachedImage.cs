@@ -1,119 +1,113 @@
-﻿using FFImageLoading.Forms;
+﻿using FFImageLoading;
+using FFImageLoading.Forms;
+using FFImageLoading.Work;
+using System;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using ImageSource = Xamarin.Forms.ImageSource;
+using ImageSourceConverter = FFImageLoading.Forms.ImageSourceConverter;
 
 namespace VCHelper.Controls.ExtendedCachedImage
 {
     public class ExtendedCachedImage : CachedImage
     {
-        public static BindableProperty ImageParametersProperty = BindableProperty.Create(
-            nameof(ImageParameters),
-            typeof(CachedImageParameters),
+        public static readonly BindableProperty FullSourceProperty = BindableProperty.Create(
+            nameof(FullSource),
+            typeof(ImageSource),
             typeof(ExtendedCachedImage),
             default,
             BindingMode.OneWay,
-            propertyChanged: OnImageParametersChanged);
+            coerceValue: CoerceImageSource);
 
-        public static BindableProperty PreviewParametersProperty = BindableProperty.Create(
-            nameof(PreviewParameters),
-            typeof(CachedImageParameters),
+        public static readonly BindableProperty FullTransformationsProperty = BindableProperty.Create(
+            nameof(FullTransformations),
+            typeof(List<ITransformation>),
+            typeof(ExtendedCachedImage),
+            default,
+            BindingMode.OneWay);
+
+        public static readonly BindableProperty IsFullImageLoadedProperty = BindableProperty.Create(
+            nameof(IsFullImageLoaded),
+            typeof(bool),
+            typeof(ExtendedCachedImage),
+            false,
+            BindingMode.OneWay);
+
+        public static readonly BindableProperty PreviewSourceProperty = BindableProperty.Create(
+            nameof(PreviewSource),
+            typeof(ImageSource),
             typeof(ExtendedCachedImage),
             default,
             BindingMode.OneWay,
-            propertyChanged: OnPreviewParametersChanged);
+            coerceValue:CoerceImageSource);
 
-        public CachedImageParameters ImageParameters
+        public static readonly BindableProperty PreviewTransformationsProperty = BindableProperty.Create(
+            nameof(PreviewTransformations),
+            typeof(List<ITransformation>),
+            typeof(ExtendedCachedImage),
+            default,
+            BindingMode.OneWay);
+
+        [TypeConverter(typeof(ImageSourceConverter))]
+        public ImageSource FullSource
         {
-            get => (CachedImageParameters)GetValue(ImageParametersProperty);
-            set => SetValue(ImageParametersProperty, value);
+            get => (ImageSource)GetValue(FullSourceProperty);
+            set => SetValue(FullSourceProperty, value);
         }
 
-        public CachedImageParameters PreviewParameters
+        public List<ITransformation> FullTransformations
         {
-            get => (CachedImageParameters)GetValue(PreviewParametersProperty);
-            set => SetValue(PreviewParametersProperty, value);
+            get => (List<ITransformation>)GetValue(FullTransformationsProperty);
+            set => SetValue(FullTransformationsProperty, value);
         }
 
-        public static void OnImageParametersChanged(BindableObject bindable, object oldValue, object newValue)
+        public bool IsFullImageLoaded
         {
-            if (bindable is ExtendedCachedImage image)
-                image.OnImageParametersChanged(oldValue as CachedImageParameters, newValue as CachedImageParameters);
+            get => (bool)GetValue(IsFullImageLoadedProperty);
+            set => SetValue(IsFullImageLoadedProperty, value);
         }
 
-        private static void OnPreviewParametersChanged(BindableObject bindable, object oldValue, object newValue)
+
+        [TypeConverter(typeof(ImageSourceConverter))]
+        public ImageSource PreviewSource
         {
-            if (bindable is ExtendedCachedImage image)
-                image.OnPreviewParametersChanged(oldValue as CachedImageParameters, newValue as CachedImageParameters);
+            get => (ImageSource)GetValue(PreviewSourceProperty);
+            set => SetValue(PreviewSourceProperty, value);
         }
 
-        public virtual void OnImageParametersChanged(CachedImageParameters oldParams, CachedImageParameters newParams)
+        public List<ITransformation> PreviewTransformations
         {
-            if (oldParams != null)
-                oldParams.PropertyChanged -= ImageParameters_PropertyChanged;
-            if(newParams != null)
-                newParams.PropertyChanged += ImageParameters_PropertyChanged;
-
-            if (newParams?.IsLoaded == true)
-                Source = newParams.Source;
-            else
-            {
-                SetPreview();
-
-                LoadImageSource(newParams);
-            }
+            get => (List<ITransformation>)GetValue(PreviewTransformationsProperty);
+            set => SetValue(PreviewTransformationsProperty, value);
         }
 
-        private void ImageParameters_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        public ExtendedCachedImage() : base()
         {
-            if (e.PropertyName == nameof(CachedImageParameters.Source))
-                LoadImageSource(sender as CachedImageParameters);
+            PreviewTransformations = new List<ITransformation>();
+            FullTransformations = new List<ITransformation>();
         }
 
-        public virtual void OnPreviewParametersChanged(CachedImageParameters oldParams, CachedImageParameters newParams)
+        private static object CoerceImageSource(BindableObject bindable, object newValue)
         {
-            if (oldParams != null)
-                oldParams.PropertyChanged -= PreviewParameters_PropertyChanged;
-            if (newParams != null)
-                newParams.PropertyChanged += PreviewParameters_PropertyChanged;
+            return ((ExtendedCachedImage)bindable).CoerceImageSource(newValue);
+        }
+
+        private void LoadImageSource()
+        {
+            var source = FullSource as UriImageSource;
+            IsFullImageLoaded = false;
             SetPreview();
-        }
-
-        private void SetPreview()
-        {
-            if (ImageParameters?.IsLoaded == true)
+            if (source == null)
                 return;
-
-            Source = PreviewParameters?.Source;
-            Transformations = PreviewParameters?.Transformations ?? new System.Collections.Generic.List<FFImageLoading.Work.ITransformation>();
-        }
-
-        private void PreviewParameters_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            switch (e.PropertyName)
+            Task.Run(async() =>
             {
-                case nameof(CachedImageParameters.Source):
-                    OnPreviewImageSourceChanged();
-                    break;
-            }
-        }
-
-        private void OnPreviewImageSourceChanged()
-        {
-            if (ImageParameters?.IsLoaded != true)
-                Source = PreviewParameters?.Source;
-        }
-
-        private void LoadImageSource(CachedImageParameters newParams)
-        {
-            if (newParams?.Source is UriImageSource source)
-            {
-                Task.Run(() =>
+                try
                 {
                     var density = DeviceDisplay.MainDisplayInfo.Density;
-                    var work = FFImageLoading.ImageService.Instance.LoadUrl(source.Uri.AbsoluteUri);
-                    FFImageLoading
-                        .ImageService
+                    await ImageService
                         .Instance
                         .LoadUrl(source.Uri.AbsoluteUri)
                         .DownSample((int)(DownsampleWidth * density), (int)(DownsampleHeight * density), true)
@@ -121,15 +115,59 @@ namespace VCHelper.Controls.ExtendedCachedImage
                         {
                             Device.BeginInvokeOnMainThread(() =>
                             {
-                                newParams.IsLoaded = true;
-                                if (ImageParameters == newParams)
-                                {
-                                    Transformations = newParams.Transformations;
-                                    Source = newParams.Source;
-                                }
+                                IsFullImageLoaded = true;
                             });
-                        });
-                });
+                        })
+                        .Error((ex) =>
+                        {
+
+                        })
+                        .PreloadAsync();
+                }
+                catch(Exception ex)
+                {
+
+                }
+            });
+        }
+
+        protected override void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            base.OnPropertyChanged(propertyName);
+            switch (propertyName)
+            {
+                case nameof(IsFullImageLoaded):
+                case nameof(FullTransformations):
+                    OnFullImageLoadedChanged();
+                    break;
+                case nameof(FullSource):
+                    LoadImageSource();
+                    break;
+                case nameof(PreviewSource):
+                case nameof(PreviewTransformations):
+                    SetPreview();
+                    break;
+            }
+        }
+
+        private void SetPreview()
+        {
+            if (IsFullImageLoaded)
+                return;
+            Source = PreviewSource;
+            Transformations = PreviewTransformations;
+        }
+
+        private void OnFullImageLoadedChanged()
+        {
+            if (IsFullImageLoaded)
+            {
+                Source = FullSource;
+                Transformations = FullTransformations;
+            }
+            else
+            {
+                Source = null;
             }
         }
     }

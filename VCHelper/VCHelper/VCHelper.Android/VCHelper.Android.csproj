@@ -57,6 +57,9 @@
     <PackageReference Include="Microsoft.MobileBlazorBindings.WebView.Android">
       <Version>0.5.50-preview</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Migration">
+      <Version>1.0.8</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.FFImageLoading.Forms">
       <Version>2.4.11.982</Version>
     </PackageReference>

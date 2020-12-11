@@ -12,37 +12,41 @@ namespace GitSecretsHelper
 	{
 		static void Main(string[] args)
 		{
-			try
-			{
-				Console.WriteLine("enclrypt/hide");
-				Console.WriteLine("decode/reveal");
-				Console.WriteLine("addfile {filename}");
-
-				var command = Console.ReadLine();
-				switch (command)
+			string command = "";
+			while(command != "q" || command != "quit" )
+				try
 				{
-					case "encrypt":
-					case "hide": EncodeFilesAsync().Wait(); break;
-					case "decode":
-					case "reveal": DecodeFilesAsync().Wait(); break;
-					default: {
-							if (command.StartsWith("addfile "))
-							{
-								var file = command.Replace("addfile ", "").Replace("add ", "");
-								AddFiledToSecretsAsync(file).Wait();
-							}
-							else
-							{
-								Console.WriteLine("Command not correct");
-							}
-						} break;
+					Console.WriteLine("encrypt/hide - encrypt files");
+					Console.WriteLine("decode/reveal - decode files");
+					Console.WriteLine("addfile {filename} - add file to map and giignore");
+					Console.WriteLine("q/quit - close app");
+
+					Console.Write("Write command: ");
+					command = Console.ReadLine();
+					switch (command)
+					{
+						case "encrypt":
+						case "hide": EncodeFilesAsync().Wait(); break;
+						case "decode":
+						case "reveal": DecodeFilesAsync().Wait(); break;
+						default: {
+								if (command.StartsWith("addfile "))
+								{
+									var file = command.Replace("addfile ", "").Replace("add ", "");
+									AddFiledToSecretsAsync(file).Wait();
+								}
+								else
+								{
+									Console.WriteLine("Command not correct");
+								}
+							} break;
+					}
+					Console.ReadLine();
+				} catch (Exception ex)
+				{
+					Console.WriteLine($"Excpetion: {ex.Message}'\n{ex}");
+					Console.ReadLine();
 				}
-				Console.ReadLine();
-			} catch (Exception ex)
-			{
-				Console.WriteLine($"Excpetion: {ex.Message}'\n{ex}");
-				Console.ReadLine();
-			}
 		}
 
 		private static async Task DecodeFilesAsync()
@@ -51,7 +55,6 @@ namespace GitSecretsHelper
 			{
 				var path_to_mapping = ".gitsecret/paths/mapping.cfg".GetRelative();
 				Console.WriteLine(path_to_mapping);
-				Console.ReadLine();
 				var files = await File.ReadAllLinesAsync(path_to_mapping);
 				if (files?.Any() == true)
 				{

@@ -11,9 +11,14 @@ namespace VCHelper.Views
 	{
 		public BlazorPage()
 		{
-			App.Host.AddComponent<Main>(this);
 			var commandService = DependencyService.Resolve<ICommandService>();
 			commandService.SetExecution("ShowAlert", ShowAlert);
+		}
+
+		protected override void OnAppearing()
+		{
+			App.Host.AddComponent<Main>(this);
+			base.OnAppearing();
 		}
 
 		private async Task<bool> ShowAlert(object[] args)

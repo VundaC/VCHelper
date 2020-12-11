@@ -358,4 +358,4 @@ MigrationBackup/
 TempSolutions/TestIdea/TestIdea/keys.json
 .gitsecret/keys/random_seed
 !*.secret
-VCHelper/Config/Config.json
+.gitsecret/encrypt_emails.json

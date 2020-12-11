@@ -14,6 +14,10 @@ namespace GitSecretsHelper
 		{
 			try
 			{
+				Console.WriteLine("enclrypt/hide");
+				Console.WriteLine("decode/reveal");
+				Console.WriteLine("addfile {filename}");
+
 				var command = Console.ReadLine();
 				switch (command)
 				{
@@ -79,21 +83,9 @@ namespace GitSecretsHelper
 			{
 				var path_to_mapping = ".gitsecret/paths/mapping.cfg".GetRelative();
 
-				var assembly = typeof(Program).Assembly;
-				// json file contains emails property with array of emails for recipients
-				var email_path = ".gitsecret/encrypt_emails.json";
-				if(!File.Exists(email_path))
-				{
-					Console.WriteLine($"Cannot find file: {email_path}");
-					Console.ReadLine();
+				var strrecipients = await GetEmailsRecipients();
+				if (string.IsNullOrWhiteSpace(strrecipients))
 					return;
-				}
-				var emailsstr = await File.ReadAllTextAsync(email_path);
-				var jobj = JObject.Parse(emailsstr);
-				var emails = jobj["emails"].ToObject<List<string>>();
-				var strrecipients = "";
-				foreach (var email in emails)
-					strrecipients += $" --recipient {email} ";
 
 				var files = await File.ReadAllLinesAsync(path_to_mapping);
 				if (files?.Any() == true)
@@ -104,10 +96,7 @@ namespace GitSecretsHelper
 						Console.WriteLine(path);
 						path = path.GetRelative();
 
-						if (File.Exists($"{path}.secret"))
-							File.Delete($"{path}.secret");
-						var command = $"/c \" gpg --output {path}.secret --encrypt {strrecipients} {path} \"";
-						Process.Start("cmd", command);
+						EncryptFile(path, strrecipients);
 					}
 				}
 
@@ -117,6 +106,32 @@ namespace GitSecretsHelper
 			{
 				Console.WriteLine($"EXCEPTION: {ex.Message}\n{ex}");
 			}
+		}
+
+		private static async Task<string> GetEmailsRecipients()
+		{
+			var email_path = ".gitsecret/encrypt_emails.json".GetRelative();
+			if (!File.Exists(email_path))
+			{
+				Console.WriteLine($"Cannot find file: {email_path}");
+				Console.ReadLine();
+				return "";
+			}
+			var emailsstr = await File.ReadAllTextAsync(email_path);
+			var jobj = JObject.Parse(emailsstr);
+			var emails = jobj["emails"].ToObject<List<string>>();
+			var strrecipients = "";
+			foreach (var email in emails)
+				strrecipients += $" --recipient {email} ";
+			return strrecipients;
+		}
+
+		private static void EncryptFile(string path, string recipientsAtr)
+		{
+			if (File.Exists($"{path}.secret"))
+				File.Delete($"{path}.secret");
+			var command = $"/c \" gpg --output {path}.secret --encrypt {recipientsAtr} {path} \"";
+			Process.Start("cmd", command);
 		}
 
 		private static async Task AddFiledToSecretsAsync(string file)
@@ -141,7 +156,13 @@ namespace GitSecretsHelper
 			await File.AppendAllLinesAsync(gitignorepath, new[] { file });
 			Console.WriteLine("Append file to .gitignore");
 
+			var atr = await GetEmailsRecipients();
+			EncryptFile(file, atr);
+			Console.WriteLine("Encrypted file");
+
+			Console.WriteLine("Remove file from git index");
 			var command = $"/c \" git rm --cahced {file} \"";
+			Console.WriteLine("done");
 		}
 	}
 

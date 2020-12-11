@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:eci="clr-namespace:VCHelper.Controls.ExtendedCachedImage"
+    xmlns:transformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations" 
+    xmlns:vm="clr-namespace:VCHelper.ViewModels"
+    xmlns:models="clr-namespace:VCHelper.Models" 
+    xmlns:ff="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+    x:Class="VCHelper.Views.CachedImagesPage"
+    x:DataType="vm:CachedImagesPageViewModel"
+    x:Name="imagesPage">
+    <ContentPage.BindingContext>
+        <vm:CachedImagesPageViewModel/>
+    </ContentPage.BindingContext>
+    <ContentPage.Content>
+        <RefreshView
+            IsRefreshing="{Binding IsRefreshing}"
+            Command="{Binding RetryCommand}">
+            <CollectionView
+                ItemsSource="{Binding Images}">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout
+                        Orientation="Vertical"/>
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate
+                        x:DataType="models:PixabayHitsResult">
+                        <eci:ExtendedCachedImage
+                            PreviewSource="{Binding PreviewURL}"
+                            FullSource="{Binding LargeImageURL}"
+                            HeightRequest="300"
+                            Aspect="AspectFill">
+                            <eci:ExtendedCachedImage.PreviewTransformations>
+                                <transformations:BlurredTransformation
+                                    Radius="50"/>
+                            </eci:ExtendedCachedImage.PreviewTransformations>
+                        </eci:ExtendedCachedImage>
+                        <!--Source="{Binding PreviewURL}"/>-->
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+                <CollectionView.EmptyView>
+                    <Grid>
+                        <Button
+                            VerticalOptions="Center"
+                            HorizontalOptions="Center"
+                            IsVisible="{Binding IsFailed}"
+                            Command="{Binding Source={x:Reference imagesPage}, Path=BindingContext.RetryCommand}"/>
+                    </Grid>
+                </CollectionView.EmptyView>
+            </CollectionView>
+        </RefreshView>
+    </ContentPage.Content>
+</ContentPage>

@@ -70,8 +70,19 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.5.3.2" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\JavaObjectExtensions.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Renderers\AnimatedNavigationPage\AnimatedNavigationPageRenderer_Droid.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\ChatAdapter.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\ChatAdapterNotifier.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\ChatViewRenderer_Droid.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\ChatViewScrollListener.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\EmptySource.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\ICollectionChangedNotifier.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\ItemsSourceFactory.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\ListSource.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\ObservableItemsSource.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\RecyclerViewExtensions.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <None Include="wwwroot\index.html">

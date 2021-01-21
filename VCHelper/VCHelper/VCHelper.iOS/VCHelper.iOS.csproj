@@ -68,6 +68,23 @@
     <Compile Include="Renderers\AnimatedNavigationPage\AnimatedNavigationPageRendererNavigationDelegate.cs" />
     <Compile Include="Renderers\AnimatedNavigationPage\AnimatedNavigationPageRenderer_iOS.cs" />
     <Compile Include="Renderers\AnimatedNavigationPage\AnimatedNavigationPageTransitioning.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\ChatViewLayout.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\ChatViewController.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\ChatViewDelegator.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\ChatViewRenderer_iOS.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\DisposeExtensions.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\EmptySource.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\ILoopItemsViewSource.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\IndexPathExtensions.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\ItemsSourceFactory.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\ListSource.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\ObservableItemsSource.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\TemplatedCell.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\TemplateHelpers.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\VersionsExtensions.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\VerticalCell.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\VerticalDefaultCell.cs" />
+    <Compile Include="Renderers\ChatViewRenderer\WidthConstrainedCell.cs" />
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -163,6 +180,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup />
   <ProjectExtensions>
     <VisualStudio>
       <UserProperties TriggeredFromHotReload="False" />
